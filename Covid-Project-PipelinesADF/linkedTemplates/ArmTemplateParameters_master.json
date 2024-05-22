@@ -5,6 +5,15 @@
 		"factoryName": {
 			"value": "Covid-Project-PipelinesADF"
 		},
+		"LS_AzureBlobStorage_Covidreport_connectionString": {
+			"value": ""
+		},
+		"LS_AzureDataLakeStorage_Covid_DL_accountKey": {
+			"value": ""
+		},
+		"LS_AzureDataLakeStorage_Covid_DL_properties_typeProperties_url": {
+			"value": "https://covidprojectdlnew.dfs.core.windows.net/"
+		},
 		"containerUri": {
 			"value": ""
 		},
