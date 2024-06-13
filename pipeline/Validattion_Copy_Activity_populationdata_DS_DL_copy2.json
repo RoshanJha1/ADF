@@ -3,71 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy Population data",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "If Condition1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.00:10:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "Ds_Population_raw_gz",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DS_population_DL",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
 				"name": "Vadidation_file_exist_DS_Population",
 				"type": "Validation",
 				"dependsOn": [],
@@ -136,6 +71,21 @@
 						"value": "@equals(activity('Checkfile_Info_Metadata').output.columnCount,13)",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "Fail copyactivity",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": {
+									"value": "@concat(pipeline().Pipeline,'Fail')",
+									"type": "Expression"
+								},
+								"errorCode": "10000"
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Copy Population data_copy",
